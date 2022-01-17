@@ -1,15 +1,18 @@
 ﻿# Installation de React Native
+
 cf. https://reactnative.dev/docs/environment-setup
 
 ## Installation de node et de yarn
+
 1. Installer nodejs version [14.18.2 LTS](https://nodejs.org/download/release/latest-v14.x/) `choco install nodejs --version=14.18.2`
 1. Si nécessaire mettre node.exe dans le PATH
-1. `refreshenv` 
-1. Vérifier `node --version` 
+1. `refreshenv`
+1. Vérifier `node --version`
 1. Installer yarn `npm install --global yarn`
 1. Vérifier `yarn --version`
 
 ## Commandes de Yarn
+
 - `yarn add` : add a package to use in your current package.
 - `yarn bin` : displays the location of the yarn bin folder.
 - `yarn list` : list installed packages.
@@ -20,29 +23,34 @@ cf. https://reactnative.dev/docs/environment-setup
 - `yarn autoclean` : voir la [doc](https://classic.yarnpkg.com/en/docs/cli/autoclean)
 
 ## Démarrage rapide avec expo
+
 1. `yarn global add expo-cli`
 1. `yarn global upgrade`
 1. `yarn global bin` Renvoie le nom du dossier contenat expo
 1. Ajouter le résultat de `yarn global bin` dans le PATH
 1. `refreshenv` ou bien fermer la fenêtre & redémarrer explorer.exe<br>
-2. `where expo` ou bien `which expo`
-3. Vérifier `expo --version`
+1. `where expo` ou bien `which expo`
+1. Vérifier `expo --version`
 
 ## Installer l'extension
+
 1. React Developer Tools
-2. Extensions / Plugins pour l'éditeur de code 
+2. Extensions / Plugins pour l'éditeur de code
 
 ## Création du projet
+
 1. Aller dans le dossier des projets `cd %USERPROFILE%/Documents && mkdir ReactNative && cd ReactNative` Linux `cd ~ && mkdir ReactNative`
 1. `cd %USERPROFILE%/Documents/ReactNative` Linux `cd ~/ReactNative`
 1. `expo init PremierProjet`
-2. `cd PremierProjet`
-3. `code .`
-4. `expo start`
+1. `cd PremierProjet`
+1. `code .`
+1. `expo start`
 
 ## Modules intéressants
+
 - `yarn add react-json-pretty`
-```javascript
+
+````javascript
 import 'react-json-pretty/themes/adventure_time.css'
 import JSONPretty from 'react-json-pretty'
 <View>
@@ -51,7 +59,8 @@ import JSONPretty from 'react-json-pretty'
         data={ obj || this.state.obj }
     ></JSONPretty>
 </View>
-``` 
+
+```bash
 - `yarn add axios`
 - `yarn add react-navigation`
 - `yarn global add redux`
@@ -59,6 +68,7 @@ import JSONPretty from 'react-json-pretty'
 - `yarn add react-native-device-info`
 
 Spécifique expo :
+
 - `expo install expo-camera`
 - `expo install expo-location`
 - `expo install expo-sensors`
@@ -71,8 +81,8 @@ import {
   MagnetometerUncalibrated,
   Pedometer,
 } from 'expo-sensors';
-```
+````
 
-[React Native Directory](https://reactnative.directory/)<br>
-Chrome Debugger Tools http://localhost:8081/debugger-ui/<br>
+[React Native Directory](https://reactnative.directory/)  
+[Chrome Debugger Tools](http://localhost:8081/debugger-ui/)
 react-devtools
