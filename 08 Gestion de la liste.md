@@ -118,13 +118,16 @@ _searchFilms() {
 Après quelques tests on constate que le id renvoyé par l'API produit parfois
 des doublons. Solution : ajouter un listId et l'utiliser.
 
-- On va utiliser la fonction `crypto.randomUUID()` pour générer le listId
+- La fonction `crypto.randomUUID()` pour générer le listId
+- On va installer le module uuid : `yarn add uuid`
 - Dans API/TMDBApi.js ajouter une boucle pour ajouter le listId aux résultats
 
 ```javascript
+  import { v4 as uuidv4 } from 'uuid'
+  /* ... */
   let i = 0;
   response.data.results.forEach(function (part, index) {
-    this[index].listId = crypto.randomUUID() + page + i++;
+    this[index].listId = uuidv4() + page + i++;
   }, response.data.results);
   return response.data;`
 ```
@@ -132,7 +135,7 @@ des doublons. Solution : ajouter un listId et l'utiliser.
 - Dans Components/Search.js, au niveau de la Flatlist, changer le keyExtractor
 
 ```javascript
-  keyExtractor={ (item) => item.listId.toString() }
+  keyExtractor={ (item) => item.listId }
 ```
 
 Tester, observer les logs

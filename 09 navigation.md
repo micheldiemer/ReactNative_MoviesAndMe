@@ -10,8 +10,8 @@ Plusieurs classes/objets permettent de gérer la navigation :
 
 Installer react-navigation</br>
 
-- `yarn add react-navigation`
-- `yarn add react-navigation-stack`
+- `expo install react-navigation react-navigation-stack`
+- `expo install react-native-gesture-handler react-native-safe-area-context react-native-reanimated`
 
 ## Créez un StackNavigator
 
@@ -22,16 +22,16 @@ Création de l'objet pour la fenêtre de "Recherche"
 ```javascript
 // Navigation/Navigation.js
 
-import { createAppContainer } from "react-navigation"
-import { createStackNavigator } from "react-navigation-stack"
-import Search from "../Components/Search"
+import { createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation-stack'
+import Search from '../Components/Search'
 
 const SearchStackNavigator = createStackNavigator({
   // le nom Search dans le StackNavigator n'est pas forcément identique au nom du composant
   Search: {
     screen: Search,
     navigationOptions: {
-      title: "Rechercher",
+      title: 'Rechercher',
     },
   },
 })
@@ -44,8 +44,8 @@ Dans APP.js remplacer `<Search/>` par `<Navigation/>` y compris la directive imp
 ```javascript
 // App.js
 
-import React from "react"
-import Navigation from "./Navigation/Navigation"
+import React from 'react'
+import Navigation from './Navigation/Navigation'
 
 export default class App extends React.Component {
   render() {
@@ -59,8 +59,8 @@ export default class App extends React.Component {
 ```javascript
 // Components/FilmDetail.js
 
-import React from "react"
-import { StyleSheet, View, Text } from "react-native"
+import React from 'react'
+import { StyleSheet, View, Text } from 'react-native'
 
 class FilmDetail extends React.Component {
   render() {
@@ -98,7 +98,7 @@ Dans Component/Search.js ajouter une fonction prenant en charge le click sur un 
 
 ```javascript
 _displayDetailForFilm = (idFilm, listId) => {
-  console.log("film.id=" + idFilm + " film.listId=" + listId)
+  console.log('film.id=' + idFilm + ' film.listId=' + listId)
 }
 ```
 
@@ -120,11 +120,11 @@ class FilmItem extends React.Component {
 
 Véfifier que le `alert("clicked")` fonctionne correctement
 
-Gestion du clic sur le Filmitem :
+Gestion du clic sur le FilmItem :
 
 1. On passe l'objet film en prop au FilmItem : `<FilmItem film={ item }`
 1. On passe la fonction \_displayDetailForFilm en prop au FilmItem : `displayDetailForFilm={ this._displayDetailForFilm }`
-1. On récupère les deux propos par [décomposition Javascript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+1. On récupère les deux props par [décomposition Javascript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 1. Le FilmItem est `Pressable` (voir ci-dessus)
 1. Au moment du clic sur un FilmItem on va utiliser la prop `displayDetailForFilm`du FilmItem qui est défini dans le composant `Search` pour traiter le clic et naviguer dans le composant FilmDetail
 
@@ -158,8 +158,8 @@ Avec la méthode `navigate` on ajoute un paramètre `idFilm` à passer à `FilmD
 
 ```javascript
 _displayDetailForFilm = (idFilm, listId) => {
-  console.log("film.id=" + idFilm + " film.listId=" + listId)
-  this.props.navigation.navigate("FilmDetail", { idFilm: idFilm })
+  console.log('film.id=' + idFilm + ' film.listId=' + listId)
+  this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
 }
 ```
 

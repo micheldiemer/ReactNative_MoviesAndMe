@@ -34,7 +34,7 @@ L'attribut `renderItem` défini comment chaque élement de la liste doit être a
 La boucle est "automatique". On utilise uen fonction fléchée Javascript.
 
 ```javascript
-renderItem={({item}) => <Text>{item.key}</Text>
+  renderItem={({item}) => <Text>{item.key}</Text>
     **est équivalent à**
 renderItem={function ({item}) { return <Text>{item.title}</Text> }}
 ```

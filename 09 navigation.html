@@ -225,7 +225,7 @@ pre code {
 }
 
 </style>
-
+<link rel="stylesheet" href="https://github.com/jasonm23/markdown-css-themes" type="text/css"><link rel="stylesheet" href="https://github.com/jasonm23/markdown-css-themes/markdown10.css" type="text/css">
 <style>
 /* Tomorrow Theme */
 /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
@@ -374,25 +374,27 @@ Plusieurs classes/objets permettent de gérer la navigation :</p>
 <li><em>DrawerNavigator</em> : permet de créer un menu à gauche qui est refermable et une vue à droite</li>
 <li><em>NavigatorIOS</em> spécifique à iOS</li>
 </ul>
-<p>Installer react-navigation</br>
-<code>yarn add react-navigation</code>
-<code>yarn add react-navigation-stack</code></p>
+<p>Installer react-navigation</br></p>
+<ul>
+<li><code>yarn add react-navigation</code></li>
+<li><code>yarn add react-navigation-stack</code></li>
+</ul>
 <h2 id="cr%C3%A9ez-un-stacknavigator">Créez un StackNavigator</h2>
-<p>Voir la <a href="https://reactnavigation.org/docs/hello-react-navigation/">documentation</a></p>
+<p>Voir le <a href="https://reactnavigation.org/docs/hello-react-navigation/">tutoriel</a> ou la <a href="https://reactnavigation.org/docs/navigation-prop">documentation</a></p>
 <p>Création de l'objet pour la fenêtre de &quot;Recherche&quot;</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// Navigation/Navigation.js</span>
 
-<span class="hljs-keyword">import</span> {createAppContainer} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-navigation'</span>
-<span class="hljs-keyword">import</span> {createStackNavigator} <span class="hljs-keyword">from</span> <span class="hljs-string">'react-navigation-stack'</span>
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'../Components/Search'</span>   
+<span class="hljs-keyword">import</span> { createAppContainer } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-navigation"</span>
+<span class="hljs-keyword">import</span> { createStackNavigator } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-navigation-stack"</span>
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"../Components/Search"</span>
 
 <span class="hljs-keyword">const</span> SearchStackNavigator = createStackNavigator({
   <span class="hljs-comment">// le nom Search dans le StackNavigator n'est pas forcément identique au nom du composant</span>
-  <span class="hljs-attr">Search</span>: {  
+  <span class="hljs-attr">Search</span>: {
     <span class="hljs-attr">screen</span>: Search,
     <span class="hljs-attr">navigationOptions</span>: {
-      <span class="hljs-attr">title</span>: <span class="hljs-string">'Rechercher'</span>
-    }
+      <span class="hljs-attr">title</span>: <span class="hljs-string">"Rechercher"</span>,
+    },
   },
 })
 
@@ -401,22 +403,20 @@ Plusieurs classes/objets permettent de gérer la navigation :</p>
 <p>Dans APP.js remplacer <code>&lt;Search/&gt;</code> par <code>&lt;Navigation/&gt;</code> y compris la directive import</p>
 <pre class="hljs"><code><div><span class="hljs-comment">// App.js</span>
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
-<span class="hljs-keyword">import</span> Navigation <span class="hljs-keyword">from</span> <span class="hljs-string">'./Navigation/Navigation'</span>
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>
+<span class="hljs-keyword">import</span> Navigation <span class="hljs-keyword">from</span> <span class="hljs-string">"./Navigation/Navigation"</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   render() {
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Navigation</span>/&gt;</span></span>
-    )
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Navigation</span> /&gt;</span></span>
   }
 }
 </div></code></pre>
 <h2 id="cr%C3%A9er-une-vue-filmdetail">Créer une vue FilmDetail</h2>
 <pre class="hljs"><code><div><span class="hljs-comment">// Components/FilmDetail.js</span>
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
-<span class="hljs-keyword">import</span> { StyleSheet, View, Text } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-native'</span>
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>
+<span class="hljs-keyword">import</span> { StyleSheet, View, Text } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-native"</span>
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilmDetail</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   render() {
@@ -431,7 +431,7 @@ Plusieurs classes/objets permettent de gérer la navigation :</p>
 <span class="hljs-keyword">const</span> styles = StyleSheet.create({
   <span class="hljs-attr">main_container</span>: {
     <span class="hljs-attr">flex</span>: <span class="hljs-number">1</span>,
-  }
+  },
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> FilmDetail
@@ -441,17 +441,17 @@ Plusieurs classes/objets permettent de gérer la navigation :</p>
   <span class="hljs-comment">// ...</span>
   <span class="hljs-comment">// le nom dans le StackNavigator n'est pas obligatoirement</span>
   <span class="hljs-comment">// identique au nom du Composant</span>
-  <span class="hljs-attr">FilmDetail</span>: { 
+  <span class="hljs-attr">FilmDetail</span>: {
     <span class="hljs-attr">screen</span>: FilmDetail
   },
 }
 </div></code></pre>
 <p>Dans Component/Search.js ajouter une fonction prenant en charge le click sur un film</p>
-<pre class="hljs"><code><div>  _displayDetailForFilm = <span class="hljs-function">(<span class="hljs-params">idFilm, listId</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"film.id="</span> + idFilm + <span class="hljs-string">" film.listId="</span> + listId)
-  }
+<pre class="hljs"><code><div>_displayDetailForFilm = <span class="hljs-function">(<span class="hljs-params">idFilm, listId</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"film.id="</span> + idFilm + <span class="hljs-string">" film.listId="</span> + listId)
+}
 </div></code></pre>
-<p>Cela paraît évident qu'il s'agit d'un clic sur un item (FilmItem) de notre FlatList. On veut qu'au clic sur un component FilmItem, le détail du film cliqué soit affiché. On va donc avoir besoin d'appeler la fonction  _displayDetailForFilm  dans le component FilmItem.</p>
+<p>Cela paraît évident qu'il s'agit d'un clic sur un item (FilmItem) de notre FlatList. On veut qu'au clic sur un component FilmItem, le détail du film cliqué soit affiché. On va donc avoir besoin d'appeler la fonction _displayDetailForFilm dans le component FilmItem.</p>
 <p>Le composant Pressable permet de récupérer les événements de click.</p>
 <pre class="hljs"><code><div><span class="hljs-keyword">import</span> { Pressable } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-native"</span>;
 
@@ -496,9 +496,9 @@ et qui nous permet d'accéder à notre <code>StackNavigator</code>.</p>
 <p>Maintenant on va ouvrir le FilmDetail grâce à la méthode <code>navigate</code> (voir un <a href="https://reactnavigation.org/docs/params">exemple</a> et/ou la <a href="https://reactnavigation.org/docs/navigation-prop/#navigate">documentation</a> du <code>StackNavigator</code>)<br>
 Avec la méthode <code>navigate</code> on ajoute un paramètre <code>idFilm</code> à passer à <code>FilmDetail</code></p>
 <pre class="hljs"><code><div>_displayDetailForFilm = <span class="hljs-function">(<span class="hljs-params">idFilm, listId</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"film.id="</span> + idFilm + <span class="hljs-string">" film.listId="</span> + listId)
-    <span class="hljs-keyword">this</span>.props.navigation.navigate(<span class="hljs-string">"FilmDetail"</span>, { <span class="hljs-attr">idFilm</span>: idFilm })
-  }
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"film.id="</span> + idFilm + <span class="hljs-string">" film.listId="</span> + listId)
+  <span class="hljs-keyword">this</span>.props.navigation.navigate(<span class="hljs-string">"FilmDetail"</span>, { <span class="hljs-attr">idFilm</span>: idFilm })
+}
 </div></code></pre>
 <p>Vérifions comment cela se passe :</p>
 <pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilmDetail</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{

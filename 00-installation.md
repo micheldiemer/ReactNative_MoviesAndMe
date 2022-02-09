@@ -21,28 +21,30 @@ cf. https://reactnative.dev/docs/environment-setup
 - `yarn upgrade-interactive` : similar to upgrade command, but display the outdated
 - `yarn cache clean [--all}]` : clean the cache
 - `yarn autoclean` : voir la [doc](https://classic.yarnpkg.com/en/docs/cli/autoclean)
+- `yarn policies set-version` : met à jour yarn
 
 ## Démarrage rapide avec expo
 
-1. `yarn global add expo-cli`
-1. `yarn global upgrade`
-1. `yarn global bin` Renvoie le nom du dossier contenat expo
-1. Ajouter le résultat de `yarn global bin` dans le PATH
-1. `refreshenv` ou bien fermer la fenêtre & redémarrer explorer.exe<br>
-1. `where expo` ou bien `which expo`
-1. Vérifier `expo --version`
+1. `yarn policies set-version` : mettre yarn à jour
+2. `yarn global add expo-cli`
+3. `yarn global upgrade`
+4. `yarn global bin` Renvoie le nom du dossier contenat expo
+5. Ajouter le résultat de `yarn global bin` dans le PATH
+6. `refreshenv` ou bien fermer la fenêtre & redémarrer explorer.exe<br>
+7. `where expo` ou bien `which expo`
+8. Vérifier `expo --version`
 
 ## Installer l'extension
 
-1. React Developer Tools
-2. Extensions / Plugins pour l'éditeur de code
+1. Navigateur Internet : React Developer Tools
+2. Éditeur de code : vérifier et installer les extensions disponibles/utiles
 
 ## Création du projet
 
 1. Aller dans le dossier des projets `cd %USERPROFILE%/Documents && mkdir ReactNative && cd ReactNative` Linux `cd ~ && mkdir ReactNative`
 1. `cd %USERPROFILE%/Documents/ReactNative` Linux `cd ~/ReactNative`
-1. `expo init PremierProjet`
-1. `cd PremierProjet`
+1. `expo init moviesandme`
+1. `cd moviesandme`
 1. `code .`
 1. `expo start`
 
