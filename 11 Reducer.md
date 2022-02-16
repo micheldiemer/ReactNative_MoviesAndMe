@@ -39,10 +39,10 @@ Une action est, tout simplement, un objet avec deux paramètres :
 function monReducer(state, action) {
   let nextState
   switch (action.type) {
-    case "ACTION_1":
+    case 'ACTION_1':
       // Modification du state de l'application
       return nextState
-    case "ACTION_2":
+    case 'ACTION_2':
       // Modification du state de l'application
       return nextState
     //...
@@ -81,7 +81,7 @@ const initialState = { favoritesFilm: [] }
 function toggleFavorite(state, action) {
   let nextState
   switch (action.type) {
-    case "TOGGLE_FAVORITE":
+    case 'TOGGLE_FAVORITE':
     default:
       return state
   }
@@ -98,19 +98,19 @@ const initialState = { favoritesFilm: [] }
 function toggleFavorite(state = initialState, action) {
   let nextState
   switch (action.type) {
-    case "TOGGLE_FAVORITE":
+    case 'TOGGLE_FAVORITE':
       /*
       La première chose que l'on réalise dans l'action est de vérifier que le film passé via l'action existe dans la liste des films favoris. Souvenez-vous, on fait passer l'objet d'une action (ici notre film) dans le champ value (d'où le code action.value). Pour savoir si le film est déjà présent dans la liste des films favoris, on utilise la fonction findIndex en Javascript qui retourne l'index de l'élément dans le tableau s'il existe, sinon elle renvoie -1
       */
       const favoriteFilmIndex = state.favoritesFilm.findIndex(
-        (item) => item.id === action.value.id
+        (item) => item.id === action.value.id,
       )
       if (favoriteFilmIndex !== -1) {
         // Le film est déjà dans les favoris, on le supprime de la liste
         nextState = {
           ...state,
           favoritesFilm: state.favoritesFilm.filter(
-            (item, index) => index !== favoriteFilmIndex
+            (item, index) => index !== favoriteFilmIndex,
           ),
         }
       } else {
@@ -144,8 +144,8 @@ Création du Store
 ```javascript
 // Store/configureStore.js
 
-import { createStore } from "redux"
-import toggleFavorite from "./Reducers/favoriteReducer"
+import { createStore } from 'redux'
+import toggleFavorite from './Reducers/favoriteReducer'
 
 // On initialise le store en lui faisant passer notre reducer.
 export default createStore(toggleFavorite)
@@ -157,10 +157,10 @@ Le Provider met le store à disposition dans toute l'application
 ```javascript
 // App.js
 
-import React from "react"
-import Navigation from "./Navigation/Navigation"
-import { Provider } from "react-redux"
-import Store from "./Store/configureStore"
+import React from 'react'
+import Navigation from './Navigation/Navigation'
+import { Provider } from 'react-redux'
+import Store from './Store/configureStore'
 
 export default class App extends React.Component {
   render() {
@@ -185,7 +185,7 @@ Maintenant il faut connecter le Component au Store.
 // Components/FilmDetail.js
 
 //...
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
 
 //...
 
@@ -198,7 +198,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(FilmDetail)
 ```
 
-À présent, dans les props du component FilmDetail, vous avez accès au state de l'application et donc aux films favoris. Vérifoez avec les logs :
+À présent, dans les props du component FilmDetail, vous avez accès au state de l'application et donc aux films favoris. Vérifiez avec les logs :
 
 ```javascript
 // Components/FilmDetail.js
@@ -238,7 +238,7 @@ import { Pressable } from 'react-native'
     _displayFilm() {
         // ...
         <Text style={styles.title_text}>{film.title}</Text>
-        <Pressable onPress={() => this._toggleFavorite()}>
+        <Pressable style={styles.favorite} onPress={() => this._toggleFavorite()}>
           <Text>{"Favoris"}</Text>
         </Pressable>
 
@@ -299,8 +299,8 @@ FilmDetail.js complet
 ```javascript
 // Components/FilmDetail.js
 
-import React from "react"
-import JSONPretty from "react-json-pretty"
+import React from 'react'
+import JSONPretty from 'react-json-pretty'
 import {
   Pressable,
   StyleSheet,
@@ -309,12 +309,12 @@ import {
   Image,
   ActivityIndicator,
   ScrollView,
-} from "react-native"
-import { getFilmDetailFromApi, getImageFromApi } from "../API/TMDBApi"
-import "react-json-pretty/themes/adventure_time.css"
-import moment from "moment"
-import numeral from "numeral"
-import { connect } from "react-redux"
+} from 'react-native'
+import { getFilmDetailFromApi, getImageFromApi } from '../API/TMDBApi'
+import 'react-json-pretty/themes/adventure_time.css'
+import moment from 'moment'
+import numeral from 'numeral'
+import { connect } from 'react-redux'
 
 class FilmDetail extends React.Component {
   constructor(props) {
@@ -326,30 +326,30 @@ class FilmDetail extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Component FilmDetail monté")
+    console.log('Component FilmDetail monté')
     getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(
       (data) => {
         this.setState({
           film: data,
           isLoading: false,
         })
-      }
+      },
     )
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("Component FilmDetail componentDidUpdate")
-    console.log("<this.props.favoritesFilm>")
+    console.log('Component FilmDetail componentDidUpdate')
+    console.log('<this.props.favoritesFilm>')
     console.log(this.props.favoritesFilm)
-    console.log("</this.props.favoritesFilm>")
+    console.log('</this.props.favoritesFilm>')
   }
 
   componentWillUnmount() {
-    console.log("Component FilmDetail componentWillUnmount")
+    console.log('Component FilmDetail componentWillUnmount')
   }
 
   _toggleFavorite() {
-    const action = { type: "TOGGLE_FAVORITE", value: this.state.film }
+    const action = { type: 'TOGGLE_FAVORITE', value: this.state.film }
     this.props.dispatch(action)
   }
 
@@ -369,15 +369,15 @@ class FilmDetail extends React.Component {
           >
             <Text>
               {this.props.favoritesFilm.findIndex(
-                (item) => item.id === this.state.film.id
+                (item) => item.id === this.state.film.id,
               ) !== -1
-                ? "♥"
-                : "♡"}
+                ? '♥'
+                : '♡'}
             </Text>
           </Pressable>
           <Text style={styles.description_text}>{film.overview}</Text>
           <Text style={styles.default_text}>
-            Sorti le {moment(new Date(film.release_date)).format("DD/MM/YYYY")}
+            Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}
           </Text>
           <Text style={styles.default_text}>
             Note : {film.vote_average} / 10
@@ -386,23 +386,23 @@ class FilmDetail extends React.Component {
             Nombre de votes : {film.vote_count}
           </Text>
           <Text style={styles.default_text}>
-            Budget : {numeral(film.budget).format("0,0[.]00 $")}
+            Budget : {numeral(film.budget).format('0,0[.]00 $')}
           </Text>
           <Text style={styles.default_text}>
-            Genre(s) :{" "}
+            Genre(s) :{' '}
             {film.genres
               .map(function (genre) {
                 return genre.name
               })
-              .join(" / ")}
+              .join(' / ')}
           </Text>
           <Text style={styles.default_text}>
-            Companie(s) :{" "}
+            Companie(s) :{' '}
             {film.production_companies
               .map(function (company) {
                 return company.name
               })
-              .join(" / ")}
+              .join(' / ')}
           </Text>
         </ScrollView>
       )
@@ -420,8 +420,8 @@ class FilmDetail extends React.Component {
   }
 
   render() {
-    const { idFilm } = this.props.navigation.getParam("idFilm")
-    console.log("Component FilmDetail rendu idFilm = " + idFilm)
+    const { idFilm } = this.props.navigation.getParam('idFilm')
+    console.log('Component FilmDetail rendu idFilm = ' + idFilm)
     return (
       <View View style={styles.main_container}>
         {this._displayLoading()}
@@ -436,13 +436,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loading_container: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollview_container: {
     flex: 1,
@@ -452,20 +452,20 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   title_text: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 35,
     flex: 1,
-    flexWrap: "wrap",
+    flexWrap: 'wrap',
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10,
     marginBottom: 10,
-    color: "#000000",
-    textAlign: "center",
+    color: '#000000',
+    textAlign: 'center',
   },
   description_text: {
-    fontStyle: "italic",
-    color: "#666666",
+    fontStyle: 'italic',
+    color: '#666666',
     margin: 5,
     marginBottom: 15,
   },
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   favorite: {
-    alignItems: "center",
+    alignItems: 'center',
   },
 })
 

@@ -152,7 +152,7 @@ comme si on avait
 
 ## State
 
-### API TNDB
+### API TMDB
 
 L'API TMDB (The Movie DataBase) [documentation](https://www.themoviedb.org/documentation/api?language=fr) permet de récupérer des informations sur les films en français. Il faut [créer un compte](https://www.themoviedb.org/account/signup?language=fr) en chosissant l'option `Développeur` (et non pas ~~professionnel~~).
 
@@ -214,10 +214,12 @@ import axios from 'axios';
 
 const API_TOKEN = "VOTRE_TOKEN_ICI";
 
-export function getFilmsFromApiWithSearchedText = async (text) => {
+const getFilmsFromApiWithSearchedText = async (text) =>
   const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + text
 
 }
+
+export default getFilmsFromApiWithSearchedText
 ```
 
 TMDBApi.js : fonction getFilmsFromApiWithSearchedText complète, avec log et export

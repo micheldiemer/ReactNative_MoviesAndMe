@@ -7,16 +7,12 @@ code --install-extension codezombiech.gitignore
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dsznajder.es7-react-js-snippets
 code --install-extension esbenp.prettier-vscode
-code --install-extension flowtype.flow-for-vscode
 code --install-extension formulahendry.auto-close-tag
 code --install-extension formulahendry.auto-complete-tag
 code --install-extension formulahendry.auto-rename-tag
 code --install-extension jasonnutter.search-node-modules
-code --install-extension kelset.rn-full-pack
 code --install-extension mgmcdermott.vscode-language-babel
-code --install-extension MS-CEINTL.vscode-language-pack-fr
 code --install-extension naumovs.color-highlight
-code --install-extension njpwerner.autodocstring
 code --install-extension rvest.vs-code-prettier-eslint
 code --install-extension walter-ribeiro.full-react-snippets
 code --install-extension wmaurer.change-case
@@ -28,8 +24,6 @@ code --install-extension wmaurer.change-case
 {
   "editor.bracketPairColorization.enabled": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.detectIndentation": false,
-  "editor.fontSize": 12,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
@@ -52,7 +46,6 @@ code --install-extension wmaurer.change-case
   "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
   "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
   "files.trimFinalNewlines": true,
-  "editor.unicodeHighlight.nonBasicASCII": false,
   "intelephense.environment.shortOpenTag": false,
   "prettier.semi": false,
   "eslint.packageManager": "yarn",
