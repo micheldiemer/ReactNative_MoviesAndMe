@@ -1,9 +1,10 @@
-﻿# Installation de React Native
+# Installation de React Native
 
 cf. https://reactnative.dev/docs/environment-setup
 
 ## Installation de node et de yarn
 
+1. Installer `nvm` (Node Version Manager) et/ou `chocolatey` et/ou `scoop`
 1. Installer nodejs version [14.18.2 LTS](https://nodejs.org/download/release/latest-v14.x/) `choco install nodejs --version=14.18.2`
 1. Si nécessaire mettre node.exe dans le PATH
 1. `refreshenv`
