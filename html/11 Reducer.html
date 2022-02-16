@@ -1,0 +1,541 @@
+<h1 id="persistance-des-données-avec-redux">Persistance des données avec
+Redux</h1>
+<h2 id="redux">Redux</h2>
+<figure>
+<img src="GestionFilmsFavoris.png" alt="GestionFilsFavoris" />
+<figcaption aria-hidden="true">GestionFilsFavoris</figcaption>
+</figure>
+<figure>
+<img src="ReduxArchitecture.png" alt="Redux" />
+<figcaption aria-hidden="true">Redux</figcaption>
+</figure>
+<ul>
+<li>La View crée et envoie une action.</li>
+<li>Cette action est récupérée par le store.</li>
+<li>Le store modifie le state de votre application en fonction de
+l’action reçue.</li>
+<li>La View détecte les changements du state global et se re-rend.</li>
+</ul>
+<h2 id="reducer">Reducer</h2>
+<p>Un reducer est une fonction créée dans le store. Cette fonction a
+pour rôle de modifier le state de votre application en fonction d’une
+action reçue. Ce n’est donc pas le store qui modifie directement le
+state de votre application, mais un reducer contenu dans le store.</p>
+<h2 id="objectif-gérer-les-favoris">Objectif : gérer les favoris</h2>
+<figure>
+<img src="ReduxArchitecture2.png" alt="Redux" />
+<figcaption aria-hidden="true">Redux</figcaption>
+</figure>
+<ol type="1">
+<li>L’utilisateur clique sur le bouton pour ajouter le film aux favoris,
+une action est créée.</li>
+<li>L’action est envoyée au store.</li>
+<li>Le store possède un ou plusieurs reducers. Un des reducers sait
+comment gérer cette action, il fait signe au store de lui donner
+l’action et le state actuel de l’application.</li>
+<li>Le reducer fait ce qu’il a à faire, il modifie le state de
+l’application en ajoutant le film aux favoris.</li>
+<li>Le reducer redonne au store le state mis à jour avec le nouveau film
+favori.</li>
+<li>Les components qui utilisent le state global de l’application sont
+informés qu’un changement a eu lieu et se re-rendent.</li>
+</ol>
+<h2 id="construction-dune-action">Construction d’une action</h2>
+<p>Construction d’une action Une action est, tout simplement, un objet
+avec deux paramètres :</p>
+<ul>
+<li>un paramètre type qui correspond au type d’action : ajout aux
+favoris, suppression des favoris, modification du profil, etc. Le type
+est obligatoire</li>
+<li>un paramètre value qui correspond à l’objet que l’on souhaite
+modifier dans le state : un film, le profil utilisateur, etc. Ce
+paramètre est optionnel. <em>Par exemple, une action pour supprimer tous
+les films favoris n’aura besoin que d’un type. C’est inutile d’avoir une
+value ici, avec la liste de tous les films à supprimer. On supprime
+tout.</em></li>
+<li>Pour gérer les actions, dans un reducer, on utilise un <code>switch
+case</code></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">monReducer</span>(state<span class="op">,</span> action) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> nextState</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (action<span class="op">.</span><span class="at">type</span>) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;ACTION_1&#39;</span><span class="op">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Modification du state de l&#39;application</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> nextState</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;ACTION_2&#39;</span><span class="op">:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Modification du state de l&#39;application</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> nextState</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">//...</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Le state doit toujours rester immuable (cf. <a
+href="https://immutable-js.com/">documentation</a>).<br> Pour modifier
+un objet immuable, il faut créer une copie de cet objet (donc créer un
+nouvel objet) et y appliquer vos modifications.</strong></p>
+<p>Le fait que l’objet soit immuable ajoute beaucoup de robustesse au
+code. Si une modification du state produit quelque chose d’incohérent,
+on peut toujours renvoyer le state précédent. Redux est basé sur le
+paradigme de <strong><em>programmation fonctionnelle</em></strong>.</p>
+<p>Redux va donc nous permettre de gérer un state global avec, pour
+l’instant, les films favoris de notre application. Ces films seront
+gérés par un reducer. Lorsque l’on modifiera les films favoris via le
+reducer, le state de notre application sera mis à jour et tous les
+éléments graphiques qui en dépendent seront automatiquement mis à jour.
+C’est le principe du state en React, après tout.</p>
+<h2 id="intégrer-redux-dans-notre-projet">Intégrer Redux dans notre
+projet</h2>
+<ul>
+<li><code>yarn add redux</code></li>
+<li><code>yarn add react-redux</code></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  Ici, on a créé un nouvel objet  nextState   dans lequel on a copié le state de l&#39;application  ...state</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Respect du principe d&#39;immuabilité</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> nextState</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nextState <span class="op">=</span> {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">profil</span><span class="op">:</span> action<span class="op">.</span><span class="at">value</span><span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Store/Reducers/favoriteReducer.js</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> initialState <span class="op">=</span> { <span class="dt">favoritesFilm</span><span class="op">:</span> [] }</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">toggleFavorite</span>(state<span class="op">,</span> action) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> nextState</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (action<span class="op">.</span><span class="at">type</span>) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;TOGGLE_FAVORITE&#39;</span><span class="op">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Définir la fonction TOGGLE_FAVORITE pour ajouter ou supprimer un
+favori</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Store/Reducers/favoriteReducer.js</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> initialState <span class="op">=</span> { <span class="dt">favoritesFilm</span><span class="op">:</span> [] }</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">toggleFavorite</span>(state <span class="op">=</span> initialState<span class="op">,</span> action) {</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> nextState</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (action<span class="op">.</span><span class="at">type</span>) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;TOGGLE_FAVORITE&#39;</span><span class="op">:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">/*</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">      La première chose que l&#39;on réalise dans l&#39;action est de vérifier que le film passé via l&#39;action existe dans la liste des films favoris. Souvenez-vous, on fait passer l&#39;objet d&#39;une action (ici notre film) dans le champ value (d&#39;où le code action.value). Pour savoir si le film est déjà présent dans la liste des films favoris, on utilise la fonction findIndex en Javascript qui retourne l&#39;index de l&#39;élément dans le tableau s&#39;il existe, sinon elle renvoie -1</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">      */</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> favoriteFilmIndex <span class="op">=</span> state<span class="op">.</span><span class="at">favoritesFilm</span><span class="op">.</span><span class="fu">findIndex</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        (item) <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">id</span> <span class="op">===</span> action<span class="op">.</span><span class="at">value</span><span class="op">.</span><span class="at">id</span><span class="op">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (favoriteFilmIndex <span class="op">!==</span> <span class="op">-</span><span class="dv">1</span>) {</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Le film est déjà dans les favoris, on le supprime de la liste</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        nextState <span class="op">=</span> {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>          <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>          <span class="dt">favoritesFilm</span><span class="op">:</span> state<span class="op">.</span><span class="at">favoritesFilm</span><span class="op">.</span><span class="fu">filter</span>(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            (item<span class="op">,</span> index) <span class="kw">=&gt;</span> index <span class="op">!==</span> favoriteFilmIndex<span class="op">,</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>          )<span class="op">,</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Le film n&#39;est pas dans les films favoris, on l&#39;ajoute à la liste</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        nextState <span class="op">=</span> {</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>          <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>          <span class="dt">favoritesFilm</span><span class="op">:</span> [<span class="op">...</span>state<span class="op">.</span><span class="at">favoritesFilm</span><span class="op">,</span> action<span class="op">.</span><span class="at">value</span>]<span class="op">,</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="co">// renvoie l&#39;objet  nextState  si celui-ci n&#39;est pas undefined, sinon on renvoie l&#39;objet  state</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="co">// code robuste</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> nextState <span class="op">||</span> state</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> toggleFavorite</span></code></pre></div>
+<p>-1.</p>
+<ul>
+<li>On initialise un nouvel objet <code>nextState</code> avec une copie
+du state <code>...state</code></li>
+<li>Puis, on redéfinit les films favoris de l’objet
+<code>nextState</code> avec un tableau qui correspond aux films favoris
+du <code>state</code> , auquel on a enlevé le film à l’index spécifié
+(fonction <code>filter</code> )</li>
+</ul>
+<p>Création du Store</p>
+<ul>
+<li>On initialise le store en lui faisant passer notre reducer</li>
+<li>On peut avoir plusieurs reducers dans un store</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Store/configureStore.js</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createStore } <span class="im">from</span> <span class="st">&#39;redux&#39;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> toggleFavorite <span class="im">from</span> <span class="st">&#39;./Reducers/favoriteReducer&#39;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// On initialise le store en lui faisant passer notre reducer.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">createStore</span>(toggleFavorite)</span></code></pre></div>
+<p>Utilisation du Store via le Provider Le Provider met le store à
+disposition dans toute l’application</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// App.js</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&#39;react&#39;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Navigation <span class="im">from</span> <span class="st">&#39;./Navigation/Navigation&#39;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Provider } <span class="im">from</span> <span class="st">&#39;react-redux&#39;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Store <span class="im">from</span> <span class="st">&#39;./Store/configureStore&#39;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="kw">class</span> App <span class="kw">extends</span> React<span class="op">.</span><span class="at">Component</span> {</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span>Provider store<span class="op">=</span>{Store}<span class="op">&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>Navigation <span class="op">/&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;/</span>Provider<span class="op">&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Maintenant il faut connecter le Component au Store.</p>
+<ul>
+<li>Voir la documentation <a
+href="https://react-redux.js.org/using-react-redux/connect-mapstate">mapStateToProps</a></li>
+<li>Si on spécifie mapStateToProps dans la fonction connect,
+automatiquement, le component est abonné aux changements du store
+Redux.</li>
+<li>Cela permet de mapper (d’associer) le state de notre application
+dans les props du component FilmDetail.</li>
+<li>On ne connecte pas tout le store mais uniquement ce dont on a besoin
+: state.favoritesFilm</li>
+<li>Explication en image <img src="Redux_mapStateToProps.png"
+alt="mapsStateToProps" /></li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Components/FilmDetail.js</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">//...</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { connect } <span class="im">from</span> <span class="st">&#39;react-redux&#39;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">//...</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mapStateToProps <span class="op">=</span> (state) <span class="kw">=&gt;</span> {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">favoritesFilm</span><span class="op">:</span> state<span class="op">.</span><span class="at">favoritesFilm</span><span class="op">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">connect</span>(mapStateToProps)(FilmDetail)</span></code></pre></div>
+<p>À présent, dans les props du component FilmDetail, vous avez accès au
+state de l’application et donc aux films favoris. Vérifiez avec les logs
+:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Components/FilmDetail.js</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FilmDetail <span class="kw">extends</span> React<span class="op">.</span><span class="at">Component</span> {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">//...</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">render</span>() {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">props</span>) <span class="co">/* &quot;favoritesFilm&quot;: Array [] */</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            <span class="co">//...</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Lorsque vous allez ajouter un film aux favoris, le state de votre
+application va être mis à jour. Le store Redux va détecter ce changement
+et notifier tous les components connectés à votre store Redux, vous
+savez, tous les components que l’on a connectés grâce à la définition du
+paramètre <code>mapStateToProps</code>.</p>
+<p>La méthode <a
+href="https://react-redux.js.org/api/connect"><code>dispatch</code></a>
+permet de mettre à jour le store. <a
+href="https://egghead.io/lessons/react-redux-generating-containers-with-connect-from-react-redux-visibletodolist">En
+savoir plus</a></p>
+<ul>
+<li>Utilisation d’un composant <code>Pressable</code> car ke composant
+<code>Button</code> n’est pas configurable</li>
+<li>Evénement <code>onPress</code></li>
+<li>Pour choisir le texte du <code>Pressable</code> on va inclure un
+composant <code>Text</code> à l’intérieur du <code>Pressable</code></li>
+</ul>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Components/FilmDetail.js</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { Pressable } <span class="im">from</span> <span class="st">&#39;react-native&#39;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">_toggleFavorite</span>() {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Action Redux</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> action <span class="op">=</span> { <span class="dt">type</span><span class="op">:</span> <span class="st">&quot;TOGGLE_FAVORITE&quot;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">film</span> }</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Envoi de l&#39;action au Store Redux</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="fu">dispatch</span>(action)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">_displayFilm</span>() {</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">title_text</span>}<span class="op">&gt;</span>{film<span class="op">.</span><span class="at">title</span>}<span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>Pressable style<span class="op">=</span>{styles<span class="op">.</span><span class="at">favorite</span>} onPress<span class="op">=</span>{() <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="fu">_toggleFavorite</span>()}<span class="op">&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span><span class="op">&gt;</span>{<span class="st">&quot;Favoris&quot;</span>}<span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;/</span>Pressable<span class="op">&gt;</span></span></code></pre></div>
+<p>Vérification de l’événement <code>componentDidUpdate</code></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">componentDidUpdate</span>() {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;componentDidUpdate : &quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">favoritesFilm</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<ul>
+<li>Texte pour activer/décactiver les favoris : ♡ ♥ <code>textFavori =
+'♡'</code></li>
+<li>Si le film se trouve dans la liste des favoris, texte = ♥ sinon
+texte = ♡ <code>&lt;Text&gt;{this.props.favoritesFilm.findIndex((item)
+=&gt; item.id === this.state.film.id) !== -1 ? "♥" : "♡"}
+&lt;/Text&gt;</code></li>
+<li>Style du Pressable : <code>favorite: { alignItems: "center",
+},</code></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Components/FilmDetail.js</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">_toggleFavorite</span>() {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Action Redux</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> action <span class="op">=</span> { <span class="dt">type</span><span class="op">:</span> <span class="st">&quot;TOGGLE_FAVORITE&quot;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">film</span> }</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Envoi de l&#39;action au Store Redux</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="fu">dispatch</span>(action)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">_displayFilm</span>() {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ...</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">title_text</span>}<span class="op">&gt;</span>{film<span class="op">.</span><span class="at">title</span>}<span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>Pressable</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{styles<span class="op">.</span><span class="at">favorite</span>}</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>            <span class="co">// ...</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>          <span class="op">&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>              {<span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">favoritesFilm</span><span class="op">.</span><span class="fu">findIndex</span>(</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                (item) <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">id</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">film</span><span class="op">.</span><span class="at">id</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>              ) <span class="op">!==</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                <span class="op">?</span> <span class="st">&quot;♥&quot;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                <span class="op">:</span> <span class="st">&quot;♡&quot;</span>}</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span>Pressable<span class="op">&gt;/&gt;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Dans les styles</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">favorite</span><span class="op">:</span> {</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">alignItems</span><span class="op">:</span> <span class="st">&quot;center&quot;</span><span class="op">,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span></code></pre></div>
+<p>FilmDetail.js complet</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Components/FilmDetail.js</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&#39;react&#39;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> JSONPretty <span class="im">from</span> <span class="st">&#39;react-json-pretty&#39;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  Pressable<span class="op">,</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">StyleSheet</span><span class="op">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  View<span class="op">,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">Text</span><span class="op">,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  Image<span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ActivityIndicator<span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  ScrollView<span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&#39;react-native&#39;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { getFilmDetailFromApi<span class="op">,</span> getImageFromApi } <span class="im">from</span> <span class="st">&#39;../API/TMDBApi&#39;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="st">&#39;react-json-pretty/themes/adventure_time.css&#39;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> moment <span class="im">from</span> <span class="st">&#39;moment&#39;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numeral <span class="im">from</span> <span class="st">&#39;numeral&#39;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { connect } <span class="im">from</span> <span class="st">&#39;react-redux&#39;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FilmDetail <span class="kw">extends</span> React<span class="op">.</span><span class="at">Component</span> {</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(props) {</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span>(props)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">state</span> <span class="op">=</span> {</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      <span class="dt">film</span><span class="op">:</span> <span class="kw">undefined</span><span class="op">,</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">isLoading</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">componentDidMount</span>() {</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Component FilmDetail monté&#39;</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">getFilmDetailFromApi</span>(<span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">navigation</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">params</span><span class="op">.</span><span class="at">idFilm</span>)<span class="op">.</span><span class="fu">then</span>(</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>      (data) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">setState</span>({</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>          <span class="dt">film</span><span class="op">:</span> data<span class="op">,</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>          <span class="dt">isLoading</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">componentDidUpdate</span>(prevProps<span class="op">,</span> prevState<span class="op">,</span> snapshot) {</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Component FilmDetail componentDidUpdate&#39;</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;&lt;this.props.favoritesFilm&gt;&#39;</span>)</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">favoritesFilm</span>)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;&lt;/this.props.favoritesFilm&gt;&#39;</span>)</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">componentWillUnmount</span>() {</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Component FilmDetail componentWillUnmount&#39;</span>)</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_toggleFavorite</span>() {</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> action <span class="op">=</span> { <span class="dt">type</span><span class="op">:</span> <span class="st">&#39;TOGGLE_FAVORITE&#39;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">film</span> }</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="fu">dispatch</span>(action)</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_displayFilm</span>() {</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { film } <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (film <span class="op">!=</span> <span class="kw">undefined</span>) {</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> (</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>ScrollView style<span class="op">=</span>{styles<span class="op">.</span><span class="at">scrollview_container</span>}<span class="op">&gt;</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span>Image</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{styles<span class="op">.</span><span class="at">image</span>}</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>            source<span class="op">=</span>{{ <span class="dt">uri</span><span class="op">:</span> <span class="fu">getImageFromApi</span>(film<span class="op">.</span><span class="at">poster_path</span>) }}</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>          <span class="op">/&gt;</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">title_text</span>}<span class="op">&gt;</span>{film<span class="op">.</span><span class="at">title</span>}<span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span>Pressable</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{styles<span class="op">.</span><span class="at">favorite</span>}</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>            onPress<span class="op">=</span>{() <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="fu">_toggleFavorite</span>()}</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>          <span class="op">&gt;</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>              {<span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">favoritesFilm</span><span class="op">.</span><span class="fu">findIndex</span>(</span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>                (item) <span class="kw">=&gt;</span> item<span class="op">.</span><span class="at">id</span> <span class="op">===</span> <span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">film</span><span class="op">.</span><span class="at">id</span><span class="op">,</span></span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a>              ) <span class="op">!==</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>                <span class="op">?</span> <span class="st">&#39;♥&#39;</span></span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a>                <span class="op">:</span> <span class="st">&#39;♡&#39;</span>}</span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>            <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span>Pressable<span class="op">&gt;</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">description_text</span>}<span class="op">&gt;</span>{film<span class="op">.</span><span class="at">overview</span>}<span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>            Sorti le {<span class="fu">moment</span>(<span class="kw">new</span> <span class="bu">Date</span>(film<span class="op">.</span><span class="at">release_date</span>))<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;DD/MM/YYYY&#39;</span>)}</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Note</span> <span class="op">:</span> {film<span class="op">.</span><span class="at">vote_average</span>} <span class="ss">/ 10</span></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a><span class="ss">          &lt;/Text</span><span class="op">&gt;</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>            Nombre de <span class="dt">votes</span> <span class="op">:</span> {film<span class="op">.</span><span class="at">vote_count</span>}</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Budget</span> <span class="op">:</span> {<span class="fu">numeral</span>(film<span class="op">.</span><span class="at">budget</span>)<span class="op">.</span><span class="fu">format</span>(<span class="st">&#39;0,0[.]00 $&#39;</span>)}</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Genre</span>(s) <span class="op">:</span>{<span class="st">&#39; &#39;</span>}</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>            {film<span class="op">.</span><span class="at">genres</span></span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>              <span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (genre) {</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> genre<span class="op">.</span><span class="at">name</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>              })</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>              <span class="op">.</span><span class="fu">join</span>(<span class="st">&#39; / &#39;</span>)}</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span><span class="bu">Text</span> style<span class="op">=</span>{styles<span class="op">.</span><span class="at">default_text</span>}<span class="op">&gt;</span></span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Companie</span>(s) <span class="op">:</span>{<span class="st">&#39; &#39;</span>}</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>            {film<span class="op">.</span><span class="at">production_companies</span></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>              <span class="op">.</span><span class="fu">map</span>(<span class="kw">function</span> (company) {</span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> company<span class="op">.</span><span class="at">name</span></span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a>              })</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>              <span class="op">.</span><span class="fu">join</span>(<span class="st">&#39; / &#39;</span>)}</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;/</span><span class="bu">Text</span><span class="op">&gt;</span></span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;/</span>ScrollView<span class="op">&gt;</span></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_displayLoading</span>() {</span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">state</span><span class="op">.</span><span class="at">isLoading</span>) {</span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> (</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;</span>View style<span class="op">=</span>{styles<span class="op">.</span><span class="at">loading_container</span>}<span class="op">&gt;</span></span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>          <span class="op">&lt;</span>ActivityIndicator size<span class="op">=</span><span class="st">&quot;large&quot;</span> <span class="op">/&gt;</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>        <span class="op">&lt;/</span>View<span class="op">&gt;</span></span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { idFilm } <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">props</span><span class="op">.</span><span class="at">navigation</span><span class="op">.</span><span class="fu">getParam</span>(<span class="st">&#39;idFilm&#39;</span>)</span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Component FilmDetail rendu idFilm = &#39;</span> <span class="op">+</span> idFilm)</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (</span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;</span>View View style<span class="op">=</span>{styles<span class="op">.</span><span class="at">main_container</span>}<span class="op">&gt;</span></span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a>        {<span class="kw">this</span><span class="op">.</span><span class="fu">_displayLoading</span>()}</span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>        {<span class="kw">this</span><span class="op">.</span><span class="fu">_displayFilm</span>()}</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>      <span class="op">&lt;/</span>View<span class="op">&gt;</span></span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> styles <span class="op">=</span> <span class="bu">StyleSheet</span><span class="op">.</span><span class="fu">create</span>({</span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>  <span class="dt">main_container</span><span class="op">:</span> {</span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>    <span class="dt">flex</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>  <span class="dt">loading_container</span><span class="op">:</span> {</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a>    <span class="dt">position</span><span class="op">:</span> <span class="st">&#39;absolute&#39;</span><span class="op">,</span></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>    <span class="dt">left</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>    <span class="dt">right</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>    <span class="dt">top</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bottom</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>    <span class="dt">alignItems</span><span class="op">:</span> <span class="st">&#39;center&#39;</span><span class="op">,</span></span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>    <span class="dt">justifyContent</span><span class="op">:</span> <span class="st">&#39;center&#39;</span><span class="op">,</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>  <span class="dt">scrollview_container</span><span class="op">:</span> {</span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>    <span class="dt">flex</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span><span class="op">:</span> {</span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>    <span class="dt">height</span><span class="op">:</span> <span class="dv">169</span><span class="op">,</span></span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>    <span class="dt">margin</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title_text</span><span class="op">:</span> {</span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fontWeight</span><span class="op">:</span> <span class="st">&#39;bold&#39;</span><span class="op">,</span></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fontSize</span><span class="op">:</span> <span class="dv">35</span><span class="op">,</span></span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a>    <span class="dt">flex</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a>    <span class="dt">flexWrap</span><span class="op">:</span> <span class="st">&#39;wrap&#39;</span><span class="op">,</span></span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb12-163"><a href="#cb12-163" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">10</span><span class="op">,</span></span>
+<span id="cb12-164"><a href="#cb12-164" aria-hidden="true" tabindex="-1"></a>    <span class="dt">color</span><span class="op">:</span> <span class="st">&#39;#000000&#39;</span><span class="op">,</span></span>
+<span id="cb12-165"><a href="#cb12-165" aria-hidden="true" tabindex="-1"></a>    <span class="dt">textAlign</span><span class="op">:</span> <span class="st">&#39;center&#39;</span><span class="op">,</span></span>
+<span id="cb12-166"><a href="#cb12-166" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-167"><a href="#cb12-167" aria-hidden="true" tabindex="-1"></a>  <span class="dt">description_text</span><span class="op">:</span> {</span>
+<span id="cb12-168"><a href="#cb12-168" aria-hidden="true" tabindex="-1"></a>    <span class="dt">fontStyle</span><span class="op">:</span> <span class="st">&#39;italic&#39;</span><span class="op">,</span></span>
+<span id="cb12-169"><a href="#cb12-169" aria-hidden="true" tabindex="-1"></a>    <span class="dt">color</span><span class="op">:</span> <span class="st">&#39;#666666&#39;</span><span class="op">,</span></span>
+<span id="cb12-170"><a href="#cb12-170" aria-hidden="true" tabindex="-1"></a>    <span class="dt">margin</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-171"><a href="#cb12-171" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginBottom</span><span class="op">:</span> <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb12-172"><a href="#cb12-172" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-173"><a href="#cb12-173" aria-hidden="true" tabindex="-1"></a>  <span class="dt">default_text</span><span class="op">:</span> {</span>
+<span id="cb12-174"><a href="#cb12-174" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginLeft</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-175"><a href="#cb12-175" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginRight</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-176"><a href="#cb12-176" aria-hidden="true" tabindex="-1"></a>    <span class="dt">marginTop</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span></span>
+<span id="cb12-177"><a href="#cb12-177" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-178"><a href="#cb12-178" aria-hidden="true" tabindex="-1"></a>  <span class="dt">favorite</span><span class="op">:</span> {</span>
+<span id="cb12-179"><a href="#cb12-179" aria-hidden="true" tabindex="-1"></a>    <span class="dt">alignItems</span><span class="op">:</span> <span class="st">&#39;center&#39;</span><span class="op">,</span></span>
+<span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> mapStateToProps <span class="op">=</span> (state) <span class="kw">=&gt;</span> {</span>
+<span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a>    <span class="dt">favoritesFilm</span><span class="op">:</span> state<span class="op">.</span><span class="at">favoritesFilm</span><span class="op">,</span></span>
+<span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-187"><a href="#cb12-187" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-188"><a href="#cb12-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-189"><a href="#cb12-189" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> <span class="fu">connect</span>(mapStateToProps)(FilmDetail)</span></code></pre></div>
+<h2 id="exercice-mettre-à-jour-la-vue-recherche">Exercice : mettre à
+jour la vue recherche</h2>
+<p>La vue Liste devrait ressembler à cela (le ♥ n’est pas cliquable)
+:</p>
+<figure>
+<img src="VueRecherche.png" alt="VueRecherche" />
+<figcaption aria-hidden="true">VueRecherche</figcaption>
+</figure>
+<ul>
+<li>Connecter le store Redux au component Search,</li>
+<li>Faire passer à nos components FilmItem une prop
+<code>isFilmFavorite</code></li>
+<li>Pour les FlatList : <code>this.props.favoritesFilm</code> change
+mais <code>this.state.films</code> ne change pas donc la liste ne peut
+pas s’actualiser</li>
+<li>Pour quel la liste se mettre à jour, utiliser la prop <a
+href="https://facebook.github.io/react-native/docs/flatlist#extradata"><code>extraData</code></a>
+de la <code>FlatList</code>. Dans notre cas :
+<code>extraData={this.props.favoritesFilm}</code>. Une FlatList est un
+<a
+href="https://reactjs.org/docs/react-api.html#reactpurecomponent">PureComponent</a></li>
+</ul>
+<p><a
+href="https://egghead.io/courses/fundamentals-of-redux-course-from-dan-abramov-bd5cc867">Cours
+sur Redux</a></p>
