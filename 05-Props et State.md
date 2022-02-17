@@ -244,12 +244,15 @@ export default getFilmsFromApiWithSearchedText
 Composant Search : ajout de la fonction \_loadFilms
 
 ```javascript
+import getFilmsFromApiWithSearchedText from '../API/TMDBApi'
+
+class Search extends React.Component {
 // Fonction _loadFilms qui effectue l'appel API
 // Vérification avec console.log
 //     data est un objet Javascript
 //     data.results est un tableau Javascript avec les films
 _loadFilms() {
-    getFilmsFromApiWithSearchedText("star").then(data =>
+    getFilmsFromApiWithSearchedText('star').then(data =>
       console.log(
         '--_loadFilms\n' + JSON.stringify(data)+ '\n_loadFilms--'
         + data.results[0].original_title + '\n--_loadFilms--'
@@ -277,9 +280,9 @@ class Search extends React.Component {
 
   //...
   _loadFilms() {
-    getFilmsFromApiWithSearchedText("star").then((data) => {
+    getFilmsFromApiWithSearchedText('star').then((data) => {
       this._films = data.results;
-      this.forceUpdate();
+      this.forceUpdate();   // on va remplacer ceci par un state
     });
   }
 
@@ -312,7 +315,7 @@ constructor(props) {
 // ...
 render()
 //..
-  console.log("RENDER")
+  console.log('RENDER')
   return //...
   //...
 <FlatList
@@ -322,7 +325,7 @@ render()
 //...
 
 _loadFilms() {
-    getFilmsFromApiWithSearchedText("star").then(data => {
+    getFilmsFromApiWithSearchedText('star').then(data => {
         // appel de setSate, actualistion automatique de la Flatlist
         this.setState({ films: data.results })
         // enlever le forceUpdate()
@@ -342,9 +345,13 @@ this.searchedText = ''
     this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
   }
 
+// Adaptation de _loadFilms
+_loadFilms() {
+    getFilmsFromApiWithSearchedText(this.searchedText)
+
 // Au niveau du TextInput
   <TextInput
-    placeholder="Titre du film"
+    placeholder='Titre du film'
     style={{ styles }}
     onChangeText={(text) => this._searchTextInputChanged(text)}
   />
@@ -395,7 +402,7 @@ class Search extends React.Component {
   }
 
   render() {
-    //console.log("RENDER")
+    //console.log('RENDER')
     return (
       <View style={styles.main_container}>
         <TextInput

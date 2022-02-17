@@ -27,7 +27,7 @@ cf. https://reactnative.dev/docs/environment-setup
 ## Démarrage rapide avec expo
 
 1. `yarn policies set-version` : mettre yarn à jour
-2. `yarn global add expo-cli`
+2. `yarn global add --dev expo-cli`
 3. `yarn global upgrade`
 4. `yarn global bin` Renvoie le nom du dossier contenat expo
 5. Ajouter le résultat de `yarn global bin` dans le PATH
