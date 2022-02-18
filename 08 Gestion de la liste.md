@@ -42,7 +42,7 @@ constructor(props) {
 
 Ajouter à notre appel API : bien noter **"&page=" + page** et modification de l'appel de la fonction  
 Notez bien **this.page + 1**
-Notez bien **`maxHeight: 5000`** remarque **mieux gérer cela si possible**
+Notez bien **`flex: 1`** remarque **vérifier onEndreached**
 Notez aussi la condition **`!isLoading`**
 
 ```javascript
@@ -70,7 +70,7 @@ getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) =>
         });
       });
 
-  <View style={ { marginTop: 20, maxHeight: 5000 } }>
+  <View style={ { marginTop: 20, flex: 1 } }>
   // ...
   <FlatList
     onEndReachedThreshold={0.5}
@@ -86,8 +86,6 @@ Maintenant il faut faire la différence entre le fait d'effectuer une nouvelle r
 Ajout et appel de la fonction \_searchFilms pour les recherches
 
 Voir la documentation de [setState](https://fr.reactjs.org/docs/react-component.html#setstate)
-
-Sans le **`maxHeight: 5000`** les listItem remplissent tout
 
 ```javascript
 _searchFilms() {
