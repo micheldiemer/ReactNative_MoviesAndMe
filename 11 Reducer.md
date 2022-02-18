@@ -52,7 +52,7 @@ function monReducer(state, action) {
 }
 ```
 
-**Le state doit toujours rester immuable (cf. [documentation](https://immutable-js.com/)).<br>
+**Le state doit toujours rester immuable (cf. [documentation](https://immutable-js.com/)).  
 Pour modifier un objet immuable, il faut créer une copie de cet objet (donc créer un nouvel objet) et y appliquer vos modifications.**
 
 Le fait que l'objet soit immuable ajoute beaucoup de robustesse au code. Si une modification du state produit quelque chose d'incohérent, on peut toujours renvoyer le state précédent. Redux est basé sur le paradigme de **_programmation fonctionnelle_**.

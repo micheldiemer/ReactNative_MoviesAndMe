@@ -2,11 +2,12 @@
 
 React Native propose un composant pour cela : ActivityIndicator
 
-Est-ce qu'une variable  `isLoading`, pour afficher ou masquer notre chargement, a sa place dans le state ?
+Est-ce qu'une variable `isLoading`, pour afficher ou masquer notre chargement, a sa place dans le state ?
 
-Oui, on veut qu'à son chargement, avec  `setState`  , notre component Search soit re-rendu pour afficher, ou non, le chargement.
+Oui, on veut qu'à son chargement, avec `setState` , notre component Search soit re-rendu pour afficher, ou non, le chargement.
 
 Ajout de la varible isLoading
+
 ```javascript
 // Components/Search.js
 
@@ -26,8 +27,10 @@ this.state = {
     }
   }
 ```
+
 Ajout de l'ActivityIndicator
-```javascript 
+
+```javascript
     // Components/Search.js
     import { ActivityIndicator } from 'react-native'
 
@@ -64,6 +67,7 @@ Ajout de l'ActivityIndicator
 ```
 
 Simulation de la lenteur du réseau
+
 ```javascript
 // API/TMDBApi.js
 

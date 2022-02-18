@@ -1,5 +1,16 @@
 # Suggestion de configuration Visual Studio Code pour React Native
 
+## Packets nodes
+
+`yarn global bin` ajouter dans le PATH
+
+```bash
+
+yarn add -D eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks
+
+yarn eslint --init
+```
+
 ## Extensions à installer
 
 ```bash

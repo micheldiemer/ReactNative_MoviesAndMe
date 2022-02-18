@@ -1,6 +1,6 @@
 ﻿# Props et State
 
-## Props
+## Gestion de la liste
 
 On va reprendre notre bouton de recherche
 
@@ -30,7 +30,7 @@ On créé un dictionnaire et on l'affiche dans la flatlist
 data={ [ {key: 'a'}, {key: 'b'}]}
 ```
 
-L'attribut `renderItem` défini comment chaque élement de la liste doit être affiché.<br>
+L'attribut `renderItem` défini comment chaque élement de la liste doit être affiché.  
 La boucle est "automatique". On utilise uen fonction fléchée Javascript.
 
 ```javascript
@@ -107,12 +107,11 @@ A faire : dans la liste, à la place du `<Text>` créer un style pour afficher l
 
 ![image info](unfilmsketch.png)
 
-<FlatList
-data={films}
-renderItem={({item}) => <FilmItem film={item}/>}
-/>
+```javascript
+<FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
+```
 
-# Props
+## Props
 
 En React Native les propriétés d'un composant s'appellent les **props** comme l'attribut `style`
 Voir par exemple les [props du composant Text](https://reactnative.dev/docs/text#props)
@@ -357,8 +356,8 @@ _loadFilms() {
   />
 ```
 
-Cela fonctionne bien si on clique sur 'Rechercher'.<br>
-Cela ne fonctionne pas si on appuie sur Entrée<br>
+Cela fonctionne bien si on clique sur 'Rechercher'.  
+Cela ne fonctionne pas si on appuie sur Entrée  
 Regarder la documentation sur TextInput et trouver comment faire pour que cela fonctionne aussi
 en appuyant sur la touche Entrée.
 

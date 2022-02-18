@@ -7,7 +7,7 @@ En réalité l'appel API ne nous renvoie qu'un nombre limité de films (ici 20) 
 
 Regardez dans la documentation de [FlatList](https://reactnative.dev/docs/flatlist#onendreached)
 
-On trouve deux attributs : `onEndReached` et `onEndReachedThreshold`<br>
+On trouve deux attributs : `onEndReached` et `onEndReachedThreshold`  
 `onEndReachedThreshold` est une valeur qui indique à quel moment `onEndReached` doit être appelé
 `onEndReached` est un événement qui doit être appelé lorsqu'on défile vers la fin de la liste
 Le paramètre suggéré pour `onEndReachedThreshold` est `0.5` : lorsque la moitié de la liste est atteinte, on va actualiser
@@ -40,7 +40,7 @@ constructor(props) {
 }
 ```
 
-Ajouter à notre appel API : bien noter **"&page=" + page** et modification de l'appel de la fonction<br>
+Ajouter à notre appel API : bien noter **"&page=" + page** et modification de l'appel de la fonction  
 Notez bien **this.page + 1**
 Notez bien **`maxHeight: 5000`** remarque **mieux gérer cela si possible**
 Notez aussi la condition **`!isLoading`**
@@ -82,7 +82,7 @@ getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) =>
 
 Tester. Constater que les pages défilent correctement.
 
-Maintenant il faut faire la différence entre le fait d'effectuer une nouvelle rechercher et le fait d'aller à la page suivante.<br>
+Maintenant il faut faire la différence entre le fait d'effectuer une nouvelle rechercher et le fait d'aller à la page suivante.  
 Ajout et appel de la fonction \_searchFilms pour les recherches
 
 Voir la documentation de [setState](https://fr.reactjs.org/docs/react-component.html#setstate)
