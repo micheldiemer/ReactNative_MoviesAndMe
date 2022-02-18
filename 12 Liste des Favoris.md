@@ -1,12 +1,12 @@
 # Liste des favoris
 
-## this n'est pas automatiquement défini correctement
+## this n'est pas automatiquement défini/lié/bindé correctement
 
 ```javascript
 let person = {
   name: 'John Doe',
   getName: function () {
-    // this n'est pas défini/pas défini correctement
+    // this n'est pas défini/lié correctement
     console.log(this.name)
   },
 }
@@ -43,6 +43,7 @@ setTimeout(f, 1000)
   Plusieurs props : films, \_loadFilms qui est la fonction de rechargement des films, page, totalPages et favoriteList qui est true ou false
 - Dans Search.js transformer \_loadFilms en une fonction fléchée
 - Créer un fichier `Favorites.js` qui affiche la liste des favoris
+- Dans `Navigation.js` créer un `BottomTabNavigator` avec `createBottomTabNavigator` qui contient deux onglets : SearchStackNavigator et FavoritesStackNavigator
 
 ```javascript
 // Components/Search.js
@@ -63,6 +64,43 @@ setTimeout(f, 1000)
         />
 ```
 
--
+```javascript
+// Navigation/Navigation.js
 
-- Créer un createBottomTabNavigator qui contient deux onglets : SearchStackNavigator et FavoritesStackNavigator
+/* à compléter */
+
+const MoviesTabNavigator = createBottomTabNavigator(
+  {
+    Search: {
+      /* à compléter */
+    },
+    Favorites: {
+      screen: FavoritesStackNavigator,
+      navigationOptions: {
+        tabBarLabel: '♥',
+      },
+    },
+  },
+  {
+    tabBarOptions: tabBarOptions,
+  },
+)
+)
+
+const tabBarOptions = {
+  activeBackgroundColor: '#DDDDDD', // Couleur d'arrière-plan de l'onglet sélectionné
+  inactiveBackgroundColor: '#FFFFFF', // Couleur d'arrière-plan des onglets non sélectionnés
+  scrollEnabled: true,
+  labelStyle: {
+    fontSize: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: '900',
+  },
+  style: {
+    backgroundColor: 'lightgrey',
+  },
+}
+
+export default createAppContainer(MoviesTabNavigator)
+```
