@@ -97,12 +97,12 @@ const SearchStackNavigator = createStackNavigator({
 Dans Component/Search.js ajouter une fonction prenant en charge le click sur un film
 
 ```javascript
-_displayDetailForFilm = (idFilm, listId) => {
+displayDetailForFilm = (idFilm, listId) => {
   console.log('film.id=' + idFilm + ' film.listId=' + listId)
 }
 ```
 
-Cela paraît évident qu'il s'agit d'un clic sur un item (FilmItem) de notre FlatList. On veut qu'au clic sur un component FilmItem, le détail du film cliqué soit affiché. On va donc avoir besoin d'appeler la fonction \_displayDetailForFilm dans le component FilmItem.
+Cela paraît évident qu'il s'agit d'un clic sur un item (FilmItem) de notre FlatList. On veut qu'au clic sur un component FilmItem, le détail du film cliqué soit affiché. On va donc avoir besoin d'appeler la fonction displayDetailForFilm dans le component FilmItem.
 
 Le composant Pressable permet de récupérer les événements de click.
 
@@ -123,26 +123,28 @@ Véfifier que le `alert("clicked")` fonctionne correctement
 Gestion du clic sur le FilmItem :
 
 1. On passe l'objet film en prop au FilmItem : `<FilmItem film={ item }`
-1. On passe la fonction \_displayDetailForFilm en prop au FilmItem : `displayDetailForFilm={ this._displayDetailForFilm }`
-1. On récupère les deux props par [décomposition Javascript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-1. Le FilmItem est `Pressable` (voir ci-dessus)
-1. Au moment du clic sur un FilmItem on va utiliser la prop `displayDetailForFilm`du FilmItem qui est défini dans le composant `Search` pour traiter le clic et naviguer dans le composant FilmDetail
+2. On passe la fonction displayDetailForFilm en prop au FilmItem : `displayDetailForFilm={ this.displayDetailForFilm }`
+3. On récupère les deux props par [décomposition Javascript](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+4. Le FilmItem est `Pressable` (voir ci-dessus)
+5. Au moment du clic sur un FilmItem on va utiliser la prop `displayDetailForFilm`du FilmItem qui est défini dans le composant `Search` pour traiter le clic et naviguer dans le composant FilmDetail
 
 ```javascript
 // Components/Search.js
-<FlatList renderItem={ ({ item }) => <FilmItem film={ item } displayDetailForFilm={ this._displayDetailForFilm } /> }
+<FlatList renderItem={ ({ item }) => <FilmItem film={ item } displayDetailForFilm={ this.displayDetailForFilm } /> }
 
 
 // Components/FilmItem.js
 class FilmItem extends React.Component {
   render() {
 
+    // Récupération des props par décomposition Javascript
+    // { film, displayDetailForFilm } = this.props
+    // '⟺     const film = this.props.film
+    // '       const displayDetailForFilm = this.props.displayDetailForFilm
+    const { film, displayDetailForFilm } = this.props
+
     return (
-      // Récupération des props par décomposition Javascript
-      // { film, displayDetailForFilm } = this.props
-      // '⟺     const film = this.props.film
-      // '       const displayDetailForFilm = this.props.displayDetailForFilm
-      const { film, displayDetailForFilm } = this.props
+
       // ...
       <Pressable onPress={ () => displayDetailForFilm(film.id, film.listId) } >
 ```
@@ -157,7 +159,7 @@ Maintenant on va ouvrir le FilmDetail grâce à la méthode `navigate` (voir un 
 Avec la méthode `navigate` on ajoute un paramètre `idFilm` à passer à `FilmDetail`
 
 ```javascript
-_displayDetailForFilm = (idFilm, listId) => {
+displayDetailForFilm = (idFilm, listId) => {
   console.log('film.id=' + idFilm + ' film.listId=' + listId)
   this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
 }
