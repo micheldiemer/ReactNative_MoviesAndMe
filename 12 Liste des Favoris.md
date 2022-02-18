@@ -36,6 +36,8 @@ let person = {
 setTimeout(f, 1000)
 ```
 
+[5 Approches du Data Binding en React](https://www.freecodecamp.org/news/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56/)
+
 ## FilmList
 
 - Créer un composant ReactNative FilmList qui contient la FlatList
