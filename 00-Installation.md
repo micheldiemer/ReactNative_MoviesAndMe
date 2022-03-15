@@ -5,35 +5,32 @@ cf. https://reactnative.dev/docs/environment-setup
 ## Installation de node et de yarn
 
 1. Installer `nvm` (Node Version Manager) et/ou `chocolatey` et/ou `scoop`
-1. Installer nodejs version [14.18.2 LTS](https://nodejs.org/download/release/latest-v14.x/) `choco install nodejs --version=14.18.2`
-1. Si nécessaire mettre node.exe dans le PATH
-1. `refreshenv`
-1. Vérifier `node --version`
-1. Installer yarn `npm install --global yarn`
-1. Vérifier `yarn --version`
+2. Installer nodejs version [16 LTS](https://nodejs.org/download/release/latest-v16.x/) `nvm install 16`
+3. Si nécessaire mettre node.exe dans le PATH
+4. `refreshenv`
+5. Vérifier `node --version`
+6. Mettre à jour npm `npm update -g npm`
+7. Vérifier `npm --version`
+8. Installer yarn `npm install --global yarn`
+9. Vérifier `yarn --version`
 
 ## Commandes de Yarn
 
-- `yarn add` : add a package to use in your current package.
+- `yarn add` : ajouter un module pour le projet courant
 - `yarn bin` : displays the location of the yarn bin folder.
-- `yarn list` : list installed packages.
+- `yarn info -A` : informations
 - `yarn remove` : remove a package that will no longer be used in your current package.
 - `yarn upgrade` : upgrade packages to their latest version based on the specified range.
-- `yarn upgrade-interactive` : similar to upgrade command, but display the outdated
 - `yarn cache clean [--all}]` : clean the cache
 - `yarn autoclean` : voir la [doc](https://classic.yarnpkg.com/en/docs/cli/autoclean)
-- `yarn policies set-version` : met à jour yarn
+- `yarn set version stable`: met à jour yarn
 
 ## Démarrage rapide avec expo
 
-1. `yarn policies set-version` : mettre yarn à jour
-2. `yarn global add --dev expo-cli`
-3. `yarn global upgrade`
-4. `yarn global bin` Renvoie le nom du dossier contenat expo
-5. Ajouter le résultat de `yarn global bin` dans le PATH
-6. `refreshenv` ou bien fermer la fenêtre & redémarrer explorer.exe<br>
-7. `where expo` ou bien `which expo`
-8. Vérifier `expo --version`
+1. `yarn set version stable` : mettre yarn à jour
+2. `npm install --global expo-cli`
+3. `where expo` ou bien `which expo`
+4. Vérifier `expo --version` ; si ça ne fonctionne pas chercher le dossier `expo-cli` contenant le script `expo` ou `expo.bat` ou `expo.cmd`
 
 ## Installer l'extension
 

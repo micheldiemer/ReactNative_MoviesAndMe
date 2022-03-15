@@ -17,7 +17,7 @@
 ## Technologies HTML/CSS/Javascript
 
 - Application facile à réaliser avec les technologies du Web
-- Utilisation d'un WebWiew : l'interface est identique sur tous les appareils
+- Utilisation d'un WebView : l'interface est identique sur tous les appareils
 
 ## Liste de technologies spéficiques à une plateforme
 
