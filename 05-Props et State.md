@@ -46,7 +46,7 @@ renderItem={function ({item}) { return <Text>{item.title}</Text> }}
 />
 ```
 
-\*\*Par défaut FlatList a sont sytlés `flex: 1` et pour changer cela il faut l'encapsuler dans une `<View>`
+\*\*Par défaut FlatList a sont stylés `flex: 1` et pour changer cela il faut l'encapsuler dans une `<View>`
 
 Maintenant pour avoir une liste de films
 
@@ -111,6 +111,26 @@ A faire : dans la liste, à la place du `<Text>` créer un style pour afficher l
 <FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
 ```
 
+```javascript
+// Components/FilmItem.js
+import React from 'react'
+import { View, Text } from 'react-native'
+
+class FilmItem extends React.Component {
+  render() {
+    const film = this.props.film
+    console.log('test:' + this.props.film.title)
+    return (
+      <View>
+        <Text>{film.title}</Text>
+      </View>
+    )
+  }
+}
+
+export default FilmItem
+```
+
 ## Props
 
 En React Native les propriétés d'un composant s'appellent les **props** comme l'attribut `style`
@@ -147,6 +167,15 @@ comme si on avait
                         uri: 'https://reactnative.dev/img/tiny_logo.png',
                     }}
                 />
+```
+
+```javascript
+const styles = StyleSheet.create({
+  image: {
+    width: 20,
+    height: 20,
+  },
+})
 ```
 
 ## State

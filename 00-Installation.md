@@ -36,15 +36,24 @@ cf. https://reactnative.dev/docs/environment-setup
 
 1. Navigateur Internet : React Developer Tools
 2. Éditeur de code : vérifier et installer les extensions disponibles/utiles
+   - `Expo Tools`
+   - `React Native Tools`
+   - `Auto Rename Tag`
+   - `Auto Close Tag`
+   - `ES7+ React/Redux/React-Native snippets`
+   - `Color Highlight`
+   - `Fullstack React/React Native snippets`
+   - …
 
 ## Création du projet
 
 1. Aller dans le dossier des projets `cd %USERPROFILE%/Documents && mkdir ReactNative && cd ReactNative` Linux `cd ~ && mkdir ReactNative`
-1. `cd %USERPROFILE%/Documents/ReactNative` Linux `cd ~/ReactNative`
-1. `expo init moviesandme`
-1. `cd moviesandme`
-1. `code .`
-1. `expo start`
+2. `cd %USERPROFILE%/Documents/ReactNative` Linux `cd ~/ReactNative`
+3. `expo init moviesandme`
+4. `cd moviesandme`
+5. `yarn`
+6. `code .`
+7. `expo start`
 
 ## Modules intéressants
 

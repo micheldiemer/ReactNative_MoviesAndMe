@@ -2,7 +2,7 @@
 
 **Tous les components React Native possèdent une propriété style.**
 
-Le sylte permet de :
+Le style permet de :
 
 - Changer une couleur
 - Définir une taille
@@ -11,13 +11,13 @@ Le sylte permet de :
 - Ajouter des bordures
 - Etc.
 
-1. Ajouter un style à l'ensemble du composant
+## Ajouter un style à l'ensemble du composant
 
 ```javascript
 <View style={{ marginTop: 20 }}>
 ```
 
-1. Ajouter un style au TextInput
+## Ajouter un style au TextInput
 
 ```javascript
 <TextInput
