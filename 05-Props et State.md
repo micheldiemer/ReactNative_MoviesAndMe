@@ -264,6 +264,8 @@ L'ajouter dans `babel.config.js` :
 }
 ```
 
+Ajouter `.env` dans le fichier `.gitignore`
+
 Ajouter un fichier `.env` au même niveau que `App.js` :
 
 ```bash
