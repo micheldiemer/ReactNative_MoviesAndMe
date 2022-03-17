@@ -249,15 +249,40 @@ axiosInstance.get('api/users/1').then((response) => {
 
 Voir la [documentation](https://developers.themoviedb.org/3/search/search-movies)
 
+Pour stocker la clé API télécharger le paquet `react-native-dotenv`:
+
+`yarn add react-native-dotenv`
+
+L'ajouter dans `babel.config.js` :
+
+```javascript
+  …
+  return {
+    … ,
+    plugins: [['module:react-native-dotenv']],
+  }
+}
+```
+
+Ajouter un fichier `.env` au même niveau que `App.js` :
+
+```bash
+API_TOKEN=VOTRE_TOKEN_ICI
+```
+
+Créer le fichier `API/TMDBApi.js` et importer la clé :
+
 ```javascript
 // API/TMDBApi.js
-import axios from 'axios';
+import axios from 'axios'
+import { API_TOKEN } from '@env'
 
-const API_TOKEN = "VOTRE_TOKEN_ICI";
-
-const getFilmsFromApiWithSearchedText = async (text) =>
-  const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + text
-
+const getFilmsFromApiWithSearchedText = async (text) => {
+  const url =
+    'https://api.themoviedb.org/3/search/movie?api_key=' +
+    API_TOKEN +
+    '&language=fr&query=' +
+    text
 }
 
 export default getFilmsFromApiWithSearchedText
@@ -274,6 +299,7 @@ const getFilmsFromApiWithSearchedText = async (text) => {
     text
   const response = await axios.get(url)
   console.log('--getFilmsFromApiWithSearchedText--')
+  console.log(url)
   console.log(response.data)
   console.log('--fin getFilmsFromApiWithSearchedText--')
   return response.data
