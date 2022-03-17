@@ -321,12 +321,12 @@ class Search extends React.Component {
 //     data est un objet Javascript
 //     data.results est un tableau Javascript avec les films
 _loadFilms() {
-    getFilmsFromApiWithSearchedText('star').then(data =>
+    getFilmsFromApiWithSearchedText('star').then(data => {
       console.log(
         '--_loadFilms\n' + JSON.stringify(data)+ '\n_loadFilms--'
         + data.results[0].original_title + '\n--_loadFilms--'
 
-        ));
+        )});
 }
 // ...
 
@@ -349,7 +349,6 @@ class Search extends React.Component {
 
   //...
   _loadFilms() {
-    getFilmsFromApiWithSearchedText('star').then((data) => {
       this._films = data.results;
       this.forceUpdate();   // on va remplacer ceci par un state
     });
@@ -380,9 +379,6 @@ constructor(props) {
     super(props)
     // films est dans le state : l'interface sera actualisée à chaque appel de setState
     this.state = { films: [] }
-}
-// ...
-render()
 //..
   console.log('RENDER')
   return //...
