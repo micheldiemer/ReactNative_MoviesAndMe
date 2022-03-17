@@ -19,7 +19,8 @@ this.state = {
  // Bien noter les deux setState
  //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
  _loadFilms() {
-    if (this.searchedText.length > 0 && !this.state.isLoading) {
+    if (this.state.isLoading) return
+    if (this.searchedText.length > 0) {
       this.setState({ isLoading: true })
       getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
         this.setState({ films: data.results, isLoading: false });
@@ -35,11 +36,11 @@ Ajout de l'ActivityIndicator
     import { ActivityIndicator } from 'react-native'
 
     // ...
-   _displayLoading() {
-      if (this.state.isLoading) {
-        return (
-          <View style={styles.loading_container}>
-            <ActivityIndicator size='large' />
+    _displayLoading() {
+        if (this.state.isLoading) {
+          return (
+            <View style={styles.loading_container}>
+              <ActivityIndicator size='large' />
             {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
           </View>
         )

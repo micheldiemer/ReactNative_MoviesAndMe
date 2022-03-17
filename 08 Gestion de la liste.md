@@ -56,19 +56,21 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
 // Components/Search.js
 
 _loadFilms() {
-    if (this.searchedText.length > 0 && !this.isLoading) {
-
-getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) => {
-        this.page = data.page
-        this.totalPages = data.total_pages
-        this.setState({
-          // ... syntaxe Javascript ES6 qui permet de recopier
-          // et de fusionner les deux tableaux
-          // ⟺ films: this.state.films.concat(data.results)
-          films: [...this.state.films, ...data.results],
-          isLoading: false
-        });
-      });
+    if (this.searchedText.length == 0 || this.state.isLoading) return
+    this.setState({ isLoading: true })
+    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) => {
+          this.page = data.page
+          this.totalPa  ges = data.total_pages
+          this.setState({
+            // ... syntaxe Javascript ES6 qui permet de recopier
+            // et de fusionner les deux tableaux
+            // ⟺ films: this.state.films.concat(data.results)
+            films: [...this.state.films, ...data.results],
+            isLoading: false
+        })
+      },
+    )
+  }
 
   <View style={ { marginTop: 20, flex: 1 } }>
   // ...

@@ -178,6 +178,17 @@ const styles = StyleSheet.create({
 })
 ```
 
+Pour l'image on verra plus tard comment récupérer l'image  
+Pour l'instant on peut mettre `Assets/filmVide.png`
+
+![filmVide](Assets/filmVide.png)
+
+Créer le dossier `Assets`et y placer le fichier `filmVide.png`
+
+```javascript
+<Image style={styles.image} source={require('../Assets/filmVide.png')} />
+```
+
 ## State
 
 ### API TMDB
@@ -234,7 +245,9 @@ axiosInstance.get('api/users/1').then((response) => {
 - Créer un dossier API
 - Créer un fichier API/TMDBApi.js
 
-TMDBApi.js : fonction et URL pour l'appel API
+`TMDBApi.js` : fonction et URL pour l'appel API
+
+Voir la [documentation](https://developers.themoviedb.org/3/search/search-movies)
 
 ```javascript
 // API/TMDBApi.js
