@@ -40,10 +40,15 @@ constructor(props) {
 }
 ```
 
-Ajouter à notre appel API : bien noter **"&page=" + page** et modification de l'appel de la fonction  
-Notez bien **this.page + 1**
-Notez bien **`flex: 1`** remarque **vérifier onEndreached**
-Notez aussi la condition **`!isLoading`**
+Ajouter à notre appel API : bien noter **"&page=" + page** et modification de l'appel de la fonction
+
+À NOTER ;
+
+- **this.page + 1**
+- **`flex: 1`**
+- remarque **vérifier onEndreached**
+- **`!isLoading`**
+- gestion de la hauteur de la liste pour éviter un appel infini à `onEndReached`
 
 ```javascript
 // API/TMDBApi.js
@@ -55,12 +60,19 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
 
 // Components/Search.js
 
+class Search extends React.Component {
+  constructor(props) {
+    …
+    this.state = { films: [], height: 0 }
+    …
+  }
+
 _loadFilms() {
     if (this.searchedText.length == 0 || this.state.isLoading) return
     this.setState({ isLoading: true })
     getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) => {
           this.page = data.page
-          this.totalPa  ges = data.total_pages
+          this.totalPages = data.total_pages
           this.setState({
             // ... syntaxe Javascript ES6 qui permet de recopier
             // et de fusionner les deux tableaux
@@ -72,14 +84,23 @@ _loadFilms() {
     )
   }
 
-  <View style={ { marginTop: 20, flex: 1 } }>
-  // ...
-  <FlatList
-    onEndReachedThreshold={0.5}
-    onEndReached={() => {
-        if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
-          this._loadFilms()
-        } } }
+  <SafeAreaView  style={ { marginTop: 20, flex: 1 } }>
+    // ...
+    <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+      <FlatList
+        onLayout={(e) => {
+          this.setState({ height: e.nativeEvent.layout.height })
+          console.log(e.nativeEvent.layout.height)
+        }}
+        style={{
+          flexGrow: 1,
+          height: this.state.height,
+        }}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+            if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
+              this._loadFilms()
+            } } }
 ```
 
 Tester. Constater que les pages défilent correctement.
@@ -115,7 +136,7 @@ _searchFilms() {
 <Button title='Rechercher' onPress={() => this._searchFilms()}/>
 ```
 
-Après quelques tests on constate que le id renvoyé par l'API produit parfois
+<!-- Après quelques tests on constate que le id renvoyé par l'API produit parfois
 des doublons. Solution : ajouter un listId et l'utiliser.
 
 - La fonction `crypto.randomUUID()` pour générer le listId
@@ -136,6 +157,6 @@ des doublons. Solution : ajouter un listId et l'utiliser.
 
 ```javascript
   keyExtractor={ (item) => item.listId }
-```
+``` -->
 
-Tester, observer les logs
+Tester, observer la console et les logs

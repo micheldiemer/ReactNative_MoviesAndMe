@@ -97,8 +97,8 @@ const SearchStackNavigator = createStackNavigator({
 Dans Component/Search.js ajouter une fonction prenant en charge le click sur un film
 
 ```javascript
-displayDetailForFilm = (idFilm, listId) => {
-  console.log('film.id=' + idFilm + ' film.listId=' + listId)
+displayDetailForFilm = (idFilm) => {
+  console.log('film.id=' + idFilm)
 }
 ```
 
@@ -146,7 +146,7 @@ class FilmItem extends React.Component {
     return (
 
       // ...
-      <Pressable onPress={ () => displayDetailForFilm(film.id, film.listId) } >
+      <Pressable onPress={ () => displayDetailForFilm(film.id) } >
 ```
 
 Constater dans le log que cela fonctionne
@@ -159,8 +159,8 @@ Maintenant on va ouvrir le FilmDetail grâce à la méthode `navigate` (voir un 
 Avec la méthode `navigate` on ajoute un paramètre `idFilm` à passer à `FilmDetail`
 
 ```javascript
-displayDetailForFilm = (idFilm, listId) => {
-  console.log('film.id=' + idFilm + ' film.listId=' + listId)
+displayDetailForFilm = (idFilm) => {
+  console.log('film.id=' + idFilm)
   this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
 }
 ```
