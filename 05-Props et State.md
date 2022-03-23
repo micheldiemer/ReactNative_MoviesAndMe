@@ -110,10 +110,20 @@ return (
 )
 ```
 
-A faire : dans la liste, à la place du `<Text>` créer un style pour afficher les films
-![image info](unfilm.jpg)
+Pour l'image on verra plus tard comment récupérer l'image  
+Pour l'instant on peut mettre `Assets/filmVide.png`
 
-![image info](unfilmsketch.png)
+![filmVide](Assets/filmVide.png)
+
+Créer le dossier `Assets`et y placer le fichier `filmVide.png`
+
+```javascript
+return (
+  /*…*/
+  <Image style={styles.image} source={require('../Assets/filmVide.png')} />
+  /*…*/
+)
+```
 
 ```javascript
 return (
@@ -141,6 +151,11 @@ class FilmItem extends React.Component {
 
 export default FilmItem
 ```
+
+A faire : dans la liste, à la place du `<Text>` créer un style pour afficher les films
+![image info](unfilm.jpg)
+
+![image info](unfilmsketch.png)
 
 ## Props
 
@@ -187,21 +202,6 @@ const styles = StyleSheet.create({
     height: 180,
   },
 })
-```
-
-Pour l'image on verra plus tard comment récupérer l'image  
-Pour l'instant on peut mettre `Assets/filmVide.png`
-
-![filmVide](Assets/filmVide.png)
-
-Créer le dossier `Assets`et y placer le fichier `filmVide.png`
-
-```javascript
-return (
-  /*…*/
-  <Image style={styles.image} source={require('../Assets/filmVide.png')} />
-  /*…*/
-)
 ```
 
 ## State
