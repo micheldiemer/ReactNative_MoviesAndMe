@@ -110,27 +110,9 @@ return (
 )
 ```
 
-Pour l'image on verra plus tard comment récupérer l'image  
-Pour l'instant on peut mettre `Assets/filmVide.png`
+## Props
 
-![filmVide](Assets/filmVide.png)
-
-Créer le dossier `Assets`et y placer le fichier `filmVide.png`
-
-```javascript
-return (
-  /*…*/
-  <Image style={styles.image} source={require('../Assets/filmVide.png')} />
-  /*…*/
-)
-```
-
-```javascript
-return (
-  /*…*/
-  <FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
-)
-```
+Pour afficher nos films on va créer un nouveau composant `FilmItem` :
 
 ```javascript
 // Components/FilmItem.js
@@ -152,12 +134,16 @@ class FilmItem extends React.Component {
 export default FilmItem
 ```
 
-A faire : dans la liste, à la place du `<Text>` créer un style pour afficher les films
-![image info](unfilm.jpg)
+Le code `<Text>{film.title}</Text>` correspond au titre du film.
 
-![image info](unfilmsketch.png)
+Pour utiliser le composant avec la `FlatList` dans `Search.js` :
 
-## Props
+```javascript
+return (
+  /*…*/
+  <FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
+)
+```
 
 En React Native les propriétés d'un composant s'appellent les **props** comme l'attribut `style`
 Voir par exemple les [props du composant Text](https://reactnative.dev/docs/text#props)
@@ -182,6 +168,8 @@ comme si on avait
 */
 ```
 
+Pour l'image voici par exemple comment récupérer une image en ligne :
+
 ```javascript
 // FilmItem
     render() {
@@ -203,6 +191,25 @@ const styles = StyleSheet.create({
   },
 })
 ```
+
+Pour l'instant, on peut mettre `Assets/filmVide.png`
+
+![filmVide](Assets/filmVide.png)
+
+Créer le dossier `Assets`et y placer le fichier `filmVide.png`
+
+```javascript
+return (
+  /*…*/
+  <Image style={styles.image} source={require('../Assets/filmVide.png')} />
+  /*…*/
+)
+```
+
+A faire : dans la liste, à la place du `<Text>` créer un style pour afficher les films
+![image info](unfilm.jpg)
+
+![image info](unfilmsketch.png)
 
 ## State
 
