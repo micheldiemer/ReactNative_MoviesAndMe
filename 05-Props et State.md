@@ -93,13 +93,21 @@ import films from '../Helpers/filmsData'
 - Affiner la méthode renterItem
 
 ```javascript
-<FlatList data={films} renderItem={({ item }) => <Text>{item.title}</Text>} />
+return (
+  <FlatList data={films} renderItem={({ item }) => <Text>{item.title}</Text>} />
+)
 ```
 
-- Préciser quel champ utiliser pour la clé, si on n'a pas un champ key de type String
+- Préciser quel champ utiliser pour la clé, si on n'a pas un champ key de type String. On ajoute l'attribut `keyExtractor` à notr `FlatList` :
 
 ```javascript
-keyExtractor={(item) => item.id.toString()}
+return (
+  <FlatList
+    data={films}
+    renderItem={({ item }) => <Text>{item.title}</Text>}
+    keyExtractor={(item) => item.id.toString()}
+  />
+)
 ```
 
 A faire : dans la liste, à la place du `<Text>` créer un style pour afficher les films
@@ -108,7 +116,10 @@ A faire : dans la liste, à la place du `<Text>` créer un style pour afficher l
 ![image info](unfilmsketch.png)
 
 ```javascript
-<FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
+return (
+  /*…*/
+  <FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
+)
 ```
 
 ```javascript
