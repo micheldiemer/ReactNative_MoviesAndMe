@@ -183,8 +183,8 @@ comme si on avait
 ```javascript
 const styles = StyleSheet.create({
   image: {
-    width: 20,
-    height: 20,
+    width: 120,
+    height: 180,
   },
 })
 ```
@@ -197,7 +197,11 @@ Pour l'instant on peut mettre `Assets/filmVide.png`
 Créer le dossier `Assets`et y placer le fichier `filmVide.png`
 
 ```javascript
-<Image style={styles.image} source={require('../Assets/filmVide.png')} />
+return (
+  /*…*/
+  <Image style={styles.image} source={require('../Assets/filmVide.png')} />
+  /*…*/
+)
 ```
 
 ## State
