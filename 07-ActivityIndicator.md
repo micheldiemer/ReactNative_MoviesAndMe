@@ -10,22 +10,32 @@ Ajout de la varible isLoading
 
 ```javascript
 // Components/Search.js
-
-this.state = {
-  films: [],
-  isLoading: false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
+constructor(props) {
+  this.state = {
+    films: [],
+    isLoading: false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
+  }
 }
 
- // Bien noter les deux setState
- //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
- _loadFilms() {
-    if (this.state.isLoading) return
-    if (this.searchedText.length > 0) {
-      this.setState({ isLoading: true })
-      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-        this.setState({ films: data.results, isLoading: false });
-      });
-    }
+  // Bien noter les deux setState
+  //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
+  _loadFilms() {
+    if (this.state.isLoading || this.searchedText == 0) return
+    this.setState({ isLoading: true })
+    getFilmsFromApiWithSearchedText(this.searchedText)
+      .then(
+        (data) => {
+          this.setState({ films: data.results, isLoading: false })
+        },
+        (err) => {
+          alert('erreur promesse rejetée : \n' + err)
+          this.setState({ isLoading: false })
+        },
+      )
+      .catch((err) => {
+        alert('erreur : \n' + err)
+        this.setState({ isLoading: false })
+      })
   }
 ```
 
@@ -47,24 +57,29 @@ Ajout de l'ActivityIndicator
       }
     }
 
-    // dans la méthode render()
-        { this._displayLoading() }
-      </View>
+render() {
+    if (this.state.isLoading) {
+      return <View>{this._displayLoading()}</View>
+    } else
+      return (
+        /* … */
+    )
+}
 
 
-     // Ajout d'un style
-     const styles = StyleSheet.create({
-        ...
-        loading_container: {
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 100,
-            bottom: 0,
-            alignItems: 'center',
-            justifyContent: 'center'
-        }
-        })
+// Ajout d'un style
+const styles = StyleSheet.create({
+  /* … */
+  loading_container: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 100,
+      bottom: 0,
+      alignItems: 'center',
+      justifyContent: 'center'
+  }
+  })
 ```
 
 Simulation de la lenteur du réseau

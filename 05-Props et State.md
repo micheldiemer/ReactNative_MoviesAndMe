@@ -366,16 +366,17 @@ Ajout d'un message en cas d'erreur
 `getFilmsFromApiWithSearchedText` renvoie une Promesse Javascript et donc on peut facilemenet créer une fonction de gestion d'erreur.
 
 ```javascript
-	getFilmsFromApiWithSearchedText('star').then(
-	  (data) => {
-	    /*…*/
-	  },
-      (err) => {
-        alert('erreur : \n' + err)
-      },
-	)
+getFilmsFromApiWithSearchedText('star')
+  .then(
+    (data) => {
+      /* …  */
+    },
+    (err) => {
+      alert('erreur promesse rejetée : \n' + err)
+    },
+  )
+  .catch((err) => alert('erreur : \n' + err))
 ```
-
 
 Composant Search : création de la liste de films au niveau de la classe
 
@@ -451,23 +452,32 @@ Optimisation de la recherche : événement onChangeText
 
 ```javascript
 // Dans le constructeur
-this.searchedText = ''
+constructor(props) {
+  super(props)
+  this.searchedText = ''
+  this.state = { films: [] }
+}
 
 // Nouvelle méthode
-  _searchTextInputChanged(text) {
-    this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
-  }
+_searchTextInputChanged(text) {
+  this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
+}
 
 // Adaptation de _loadFilms
 _loadFilms() {
-    getFilmsFromApiWithSearchedText(this.searchedText)
+    getFilmsFromApiWithSearchedText(this.searchedText)./*…*/
+}
 
-// Au niveau du TextInput
-  <TextInput
-    placeholder='Titre du film'
-    style={{ styles }}
-    onChangeText={(text) => this._searchTextInputChanged(text)}
-  />
+render() {
+  return (
+    // Au niveau du TextInput
+      <TextInput
+        placeholder='Titre du film'
+        style={{ styles }}
+        onChangeText={(text) => this._searchTextInputChanged(text)}
+      />
+    )
+}
 ```
 
 Cela fonctionne bien si on clique sur 'Rechercher'.  
