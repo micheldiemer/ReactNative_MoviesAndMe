@@ -1,6 +1,6 @@
 # Installation de React Native
 
-cf. https://reactnative.dev/docs/environment-setup
+cf. <https://reactnative.dev/docs/environment-setup>
 
 ## Installation de node et de yarn
 
@@ -17,12 +17,11 @@ cf. https://reactnative.dev/docs/environment-setup
 ## Commandes de Yarn
 
 - `yarn add` : ajouter un module pour le projet courant
-- `yarn bin` : displays the location of the yarn bin folder.
+- `yarn bin` : affiche la liste des modules exécutables
 - `yarn info -A` : informations
 - `yarn remove` : remove a package that will no longer be used in your current package.
-- `yarn upgrade` : upgrade packages to their latest version based on the specified range.
-- `yarn cache clean [--all}]` : clean the cache
-- `yarn autoclean` : voir la [doc](https://classic.yarnpkg.com/en/docs/cli/autoclean)
+- `yarn up` : upgrade packages to their latest version based on the specified range.
+- `yarn cache clean [--all]` : clean the cache
 - `yarn set version stable`: met à jour yarn
 
 ## Démarrage rapide avec expo

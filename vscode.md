@@ -2,18 +2,17 @@
 
 ## Packets nodes
 
-`yarn global bin` ajouter dans le PATH
-
 ```bash
 
-yarn add -D eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks
+npm install -g eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks
 
-yarn eslint --init
+eslint --init
 ```
 
 ## Extensions à installer
 
 ```bash
+code --install-extension byCedric.vscode-expo
 code --install-extension codezombiech.gitignore
 code --install-extension dbaeumer.vscode-eslint
 code --install-extension dsznajder.es7-react-js-snippets

@@ -353,8 +353,29 @@ _loadFilms() {
 // ...
 
 // Activation de l'événement onPress
-<Button title='Rechercher' onPress={() => this._loadFilms()}/>
+render() {
+  /* … */
+  <Button title='Rechercher' onPress={() => this._loadFilms()}/>
+  /* … */
+}
+
 ```
+
+Ajout d'un message en cas d'erreur
+
+`getFilmsFromApiWithSearchedText` renvoie une Promesse Javascript et donc on peut facilemenet créer une fonction de gestion d'erreur.
+
+```javascript
+	getFilmsFromApiWithSearchedText('star').then(
+	  (data) => {
+	    /*…*/
+	  },
+      (err) => {
+        alert('erreur : \n' + err)
+      },
+	)
+```
+
 
 Composant Search : création de la liste de films au niveau de la classe
 
@@ -371,16 +392,21 @@ class Search extends React.Component {
 
   //...
   _loadFilms() {
-      this._films = data.results;
-      this.forceUpdate();   // on va remplacer ceci par un state
-    });
+      getFilmsFromApiWithSearchedText('star').then(data => {
+        this._films = data.results;
+        this.forceUpdate();   // on va remplacer ceci par un state
+      });
   }
 
   // la flatlist affiche la prop
-  <FlatList
-    data={this._films}
-
-  //...
+  render() {
+    return(
+      <Button title='Rechercher' onPress={() => this._loadFilms()} />
+      <FlatList
+        data={this._films}
+      >
+    )
+  }
 }
 ```
 
